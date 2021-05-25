@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Unittest for org.apache.pdfbox.io.SequenceRandomAccessRead
- * 
+ *
  */
 class SequenceRandomAccessReadTest
 {
@@ -48,13 +48,13 @@ class SequenceRandomAccessReadTest
                 randomAccessReadBuffer2);
         try (SequenceRandomAccessRead sequenceRandomAccessRead = new SequenceRandomAccessRead(inputList))
         {
-            assertThrows(IOException.class, () -> sequenceRandomAccessRead.createView(0, 10));
-            
+            assertThrows(UnsupportedOperationException.class, () -> sequenceRandomAccessRead.createView(0, 10));
+
             int overallLength = input1.length() + input2.length();
             assertEquals(overallLength, sequenceRandomAccessRead.length());
-            
+
             byte[] bytesRead = new byte[overallLength];
-            
+
             assertEquals(overallLength, sequenceRandomAccessRead.read(bytesRead));
             assertEquals(input1 + input2, new String(bytesRead));
         }
@@ -129,21 +129,21 @@ class SequenceRandomAccessReadTest
             assertEquals('9', sequenceRandomAccessRead.read());
             assertEquals('a', sequenceRandomAccessRead.peek());
             assertEquals('a', sequenceRandomAccessRead.read());
-            
+
             // jump back to the first sequence
             sequenceRandomAccessRead.seek(17);
             byte[] bytesRead = new byte[6];
             assertEquals(6, sequenceRandomAccessRead.read(bytesRead));
             assertEquals("789abc", new String(bytesRead));
             assertEquals(23, sequenceRandomAccessRead.getPosition());
-            
+
             // rewind back to the first sequence
             sequenceRandomAccessRead.rewind(6);
             assertEquals(17, sequenceRandomAccessRead.getPosition());
             bytesRead = new byte[6];
             assertEquals(6, sequenceRandomAccessRead.read(bytesRead));
             assertEquals("789abc", new String(bytesRead));
-            
+
             // jump to the start of the sequence
             sequenceRandomAccessRead.seek(0);
             bytesRead = new byte[6];
@@ -216,25 +216,25 @@ class SequenceRandomAccessReadTest
         {
             // check length
             assertEquals(sequenceRandomAccessRead.length(), input1.length() + input2.length());
-            
+
             // read from both parts of the sequence
             byte[] bytesRead = new byte[10];
             sequenceRandomAccessRead.seek(15);
             assertEquals(10, sequenceRandomAccessRead.read(bytesRead));
             assertEquals("56789abcde", new String(bytesRead));
-            
+
             // rewind and read again
             sequenceRandomAccessRead.rewind(15);
             bytesRead = new byte[5];
             assertEquals(5, sequenceRandomAccessRead.read(bytesRead));
             assertEquals("01234", new String(bytesRead));
-            
+
             // check EOF when reading
             bytesRead = new byte[5];
             sequenceRandomAccessRead.seek(38);
             assertEquals(2, sequenceRandomAccessRead.read(bytesRead));
             assertEquals("st", new String(bytesRead, 0, 2));
-            
+
             // check EOF after seek
             sequenceRandomAccessRead.seek(40);
             assertTrue(sequenceRandomAccessRead.isEOF());

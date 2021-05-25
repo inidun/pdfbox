@@ -1,0 +1,679 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch PDFDebugger",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.debugger.PDFDebugger",
+            "projectName": "pdfbox-debugger"
+        },
+        {
+            "type": "java",
+            "name": "Launch AddBorderToField",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.interactive.form.AddBorderToField",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateCheckBox",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.interactive.form.CreateCheckBox",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateMultiWidgetsForm",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.interactive.form.CreateMultiWidgetsForm",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateRadioButtons",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.interactive.form.CreateRadioButtons",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateSimpleForm",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.interactive.form.CreateSimpleForm",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateSimpleFormWithEmbeddedFont",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.interactive.form.CreateSimpleFormWithEmbeddedFont",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch DetermineTextFitsField",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.interactive.form.DetermineTextFitsField",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch FieldTriggers",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.interactive.form.FieldTriggers",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch FillFormField",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.interactive.form.FillFormField",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch PrintFields",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.interactive.form.PrintFields",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch SetField",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.interactive.form.SetField",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch UpdateFieldOnDocumentOpen",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.interactive.form.UpdateFieldOnDocumentOpen",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch IndexPDFFiles",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.lucene.IndexPDFFiles",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch AddAnnotations",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.AddAnnotations",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch AddImageToPDF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.AddImageToPDF",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch AddJavascript",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.AddJavascript",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch AddMessageToEachPage",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.AddMessageToEachPage",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch AddMetadataFromDocInfo",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.AddMetadataFromDocInfo",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch BengaliPdfGenerationHelloWorld",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.BengaliPdfGenerationHelloWorld",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateBlankPDF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.CreateBlankPDF",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateBookmarks",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.CreateBookmarks",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateGradientShadingPDF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.CreateGradientShadingPDF",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateLandscapePDF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.CreateLandscapePDF",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreatePDFA",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.CreatePDFA",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreatePageLabels",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.CreatePageLabels",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreatePatternsPDF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.CreatePatternsPDF",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreatePortableCollection",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.CreatePortableCollection",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateSeparationColorBox",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.CreateSeparationColorBox",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch DisturbingThisIs",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.DisturbingThisIs",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch EmbeddedFiles",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.EmbeddedFiles",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch EmbeddedFonts",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.EmbeddedFonts",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch EmbeddedMultipleFonts",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.EmbeddedMultipleFonts",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch EmbeddedVerticalFonts",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.EmbeddedVerticalFonts",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch ExtractEmbeddedFiles",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.ExtractEmbeddedFiles",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch ExtractMetadata",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.ExtractMetadata",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch ExtractTTFFonts",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.ExtractTTFFonts",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch GoToSecondBookmarkOnOpen",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.GoToSecondBookmarkOnOpen",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch HelloWorld",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.HelloWorld",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch HelloWorldTTF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.HelloWorldTTF",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch HelloWorldType1",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.HelloWorldType1",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch ImageToPDF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.ImageToPDF",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch PrintBookmarks",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.PrintBookmarks",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch PrintDocumentMetaData",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.PrintDocumentMetaData",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch PrintURLs",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.PrintURLs",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch RemoveFirstPage",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.RemoveFirstPage",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch ReplaceURLs",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.ReplaceURLs",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch RubberStamp",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.RubberStamp",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch RubberStampWithImage",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.RubberStampWithImage",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch ShowColorBoxes",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.ShowColorBoxes",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch ShowTextWithPositioning",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.ShowTextWithPositioning",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch SuperimposePage",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.SuperimposePage",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch UsingTextMatrix",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.UsingTextMatrix",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch Printing",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.printing.Printing",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CustomGraphicsStreamEngine",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.rendering.CustomGraphicsStreamEngine",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CustomPageDrawer",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.rendering.CustomPageDrawer",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateEmbeddedTimeStamp",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.signature.CreateEmbeddedTimeStamp",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateEmptySignatureForm",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.signature.CreateEmptySignatureForm",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateSignature",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.signature.CreateSignature",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateSignedTimeStamp",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.signature.CreateSignedTimeStamp",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateVisibleSignature",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.signature.CreateVisibleSignature",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateVisibleSignature2",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.signature.CreateVisibleSignature2",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch ShowSignature",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.signature.ShowSignature",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch AddValidationInformation",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.signature.validation.AddValidationInformation",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch AddWatermarkText",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.util.AddWatermarkText",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch DrawPrintTextLocations",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.util.DrawPrintTextLocations",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch ExtractTextByArea",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.util.ExtractTextByArea",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch ExtractTextSimple",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.util.ExtractTextSimple",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch PDFHighlighter",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.util.PDFHighlighter",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch PrintImageLocations",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.util.PrintImageLocations",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch PrintTextColors",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.util.PrintTextColors",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch PrintTextLocations",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.util.PrintTextLocations",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch RemoveAllText",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.util.RemoveAllText",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch SplitBooklet",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.util.SplitBooklet",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
+            "name": "Launch DecompressObjectstreams",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.DecompressObjectstreams",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch Decrypt",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.Decrypt",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch Encrypt",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.Encrypt",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch ExportFDF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.ExportFDF",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch ExportXFDF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.ExportXFDF",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch ExtractImages",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.ExtractImages",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch ExtractText",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.ExtractText",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch ImageToPDF(1)",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.ImageToPDF",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch ImportFDF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.ImportFDF",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch ImportXFDF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.ImportXFDF",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch OverlayPDF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.OverlayPDF",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch PDFBox",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.PDFBox",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch PDFMerger",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.PDFMerger",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch PDFSplit",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.PDFSplit",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch PDFToImage",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.PDFToImage",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch PrintPDF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.PrintPDF",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch TextToPDF",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.TextToPDF",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch Version",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.Version",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch WriteDecodedDoc",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.tools.WriteDecodedDoc",
+            "projectName": "pdfbox-tools"
+        },
+        {
+            "type": "java",
+            "name": "Launch Benchmark",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.preflight.Benchmark",
+            "projectName": "preflight"
+        },
+        {
+            "type": "java",
+            "name": "Launch Validator_A1b",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.preflight.Validator_A1b",
+            "projectName": "preflight"
+        }
+    ]
+}
