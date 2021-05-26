@@ -16,13 +16,16 @@
  */
 package org.apache.pdfbox.tools;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.font.PDFontDescriptor;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -37,32 +40,59 @@ import org.apache.pdfbox.text.TextPosition;
  */
 public class PDFCourier2Text extends PDFTextStripper
 {
+    public class TitleInfo {
+        public String title;
+        public int position;
+
+        public TitleInfo(String title, int position) {
+            this.title = title;
+            this.position = position;
+        }
+    }
 
     private static final int INITIAL_PDF_TO_HTML_BYTES = 8192;
+    private float titleFontSizeInPt = 5.5f;
+    private float currentFontSizeInPt = 0f;
+    private int minTitleLengthInCharacters = 8;
+    private String currentTitle = "";
+    private int pageCharacterCount = 0;
+    private PDDocument document = null;
+    private List<String> pages = null;
+    private List<List<TitleInfo>> pageTitles = null;
+    private List<TitleInfo> currentTitles = null;
+    private int pageSeparatorCount = 0;
 
     /**
      * Constructor.
      * @throws IOException If there is an error during initialization.
      */
-    public PDFCourier2Text() throws IOException
+    public PDFCourier2Text(float titleFontSizeInPt, int minTitleLengthInCharacters) throws IOException
     {
+        this.titleFontSizeInPt = titleFontSizeInPt;
+        this.minTitleLengthInCharacters = minTitleLengthInCharacters;
         setLineSeparator(LINE_SEPARATOR);
-        // setParagraphStart("<p>");
         setParagraphEnd(LINE_SEPARATOR);
-        // setPageStart("<page>");
-        // setPageEnd("</page>"+ LINE_SEPARATOR);
+    }
+
+
+    public List<String> extractText(String filename) throws IOException
+    {
+        output = new StringWriter();
+        pages = new ArrayList<String>();
+        pageTitles = new ArrayList<List<TitleInfo>>();
+        document = Loader.loadPDF(new File(filename));
+		StringWriter sw = new StringWriter();
+		writeText(document, sw);
+		return pages;
+    }
+
+    public List<List<TitleInfo>> getTitles() {
+        return pageTitles;
     }
 
     @Override
     protected void startDocument(PDDocument document) throws IOException
     {
-        StringBuilder buf = new StringBuilder(INITIAL_PDF_TO_HTML_BYTES);
-        buf.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" + "\n"
-                + "\"http://www.w3.org/TR/html4/loose.dtd\">\n");
-
-        buf.append("<ourier>");
-
-        super.writeString(buf.toString());
     }
 
     /**
@@ -71,57 +101,22 @@ public class PDFCourier2Text extends PDFTextStripper
     @Override
     public void endDocument(PDDocument document) throws IOException
     {
-        super.writeString("</courier>");
     }
 
-    /**
-     * This method will attempt to guess the title of the document using
-     * either the document properties or the first lines of text.
-     *
-     * @return returns the title.
-     */
-    protected String getTitle()
+    @Override
+    protected void writeLineSeparator() throws IOException
     {
-        String titleGuess = document.getDocumentInformation().getTitle();
-        if(titleGuess != null && titleGuess.length() > 0)
-        {
-            return titleGuess;
-        }
-        else
-        {
-            Iterator<List<TextPosition>> textIter = getCharactersByArticle().iterator();
-            float lastFontSize = -1.0f;
-
-            StringBuilder titleText = new StringBuilder();
-            while (textIter.hasNext())
-            {
-                for (TextPosition position : textIter.next())
-                {
-                    float currentFontSize = position.getFontSize();
-                    //If we're past 64 chars we will assume that we're past the title
-                    //64 is arbitrary
-                    if (Float.compare(currentFontSize, lastFontSize) != 0 || titleText.length() > 64)
-                    {
-                        if (titleText.length() > 0)
-                        {
-                            return titleText.toString();
-                        }
-                        lastFontSize = currentFontSize;
-                    }
-                    if (currentFontSize > 13.0f)
-                    { // most body text is 12pt
-                        titleText.append(position.getUnicode());
-                    }
-                }
-            }
-        }
-        return "";
+        pageSeparatorCount += 1;
+        super.writeLineSeparator() ;
     }
 
-    private float titleFontSizeInPt = 5.5f;
-    private float currentFontSizeInPt = 0f;
-    private int minTitleLengthInCharacters =  8;
-    private String currentTitle = "";
+    @Override
+    protected void writeWordSeparator() throws IOException
+    {
+        pageSeparatorCount += 1;
+        super.writeWordSeparator();
+    }
+
     /**
      * Write a string to the output stream, maintain font state, and escape some HTML characters.
      * The font state is only preserved per word.
@@ -133,16 +128,7 @@ public class PDFCourier2Text extends PDFTextStripper
     @Override
     protected void writeString(String text, List<TextPosition> textPositions) throws IOException
     {
-
-        // if (textPositions.size() > 0) {
-        //     TextPosition textPosition = textPositions.get(0);
-        //     float fontDelta = Math.abs(textPosition.getFontSizeInPt() - currentFontSizeInPt);
-        //     currentFontSizeInPt = textPosition.getFontSizeInPt();
-        //     if (fontDelta > 2.0) {
-        //         super.writeString(String.format("# FONT %f ", currentFontSizeInPt));
-        //     }
-        // }
-
+        pageCharacterCount += text.length() + 1;
         if (textPositions.size() > 0) {
             TextPosition textPosition = textPositions.get(0);
             float fontSizeInPt = textPosition.getHeight();
@@ -151,35 +137,31 @@ public class PDFCourier2Text extends PDFTextStripper
                     (fontSizeInPt >= titleFontSizeInPt && currentFontSizeInPt >= titleFontSizeInPt)
                 ) {
                 currentTitle = currentTitle + " " + text;
-                // super.writeString(LINE_SEPARATOR + String.format("TITLE START: font %f ", fontSizeInPt) + LINE_SEPARATOR);
             } else if (fontSizeInPt < titleFontSizeInPt && currentFontSizeInPt >= titleFontSizeInPt) {
                 if (currentTitle.length() > minTitleLengthInCharacters) {
-                    super.writeString(LINE_SEPARATOR + String.format("<title>%s</title>", currentTitle) + LINE_SEPARATOR);
-                } else {
-                    super.writeString(LINE_SEPARATOR + String.format("<skipped>%s</skipped>", currentTitle) + LINE_SEPARATOR);
+                    currentTitles.add(new TitleInfo(currentTitle, pageCharacterCount + pageSeparatorCount));
+                    // super.writeString(LINE_SEPARATOR + String.format("<title>%s</title>", currentTitle) + LINE_SEPARATOR);
                 }
+                // else {
+                //     super.writeString(LINE_SEPARATOR + String.format("<skipped>%s</skipped>", currentTitle) + LINE_SEPARATOR);
+                // }
                 currentTitle = "";
-                // super.writeString(LINE_SEPARATOR + String.format("TITLE END: font %f ", fontSizeInPt) + LINE_SEPARATOR);
             }
             currentFontSizeInPt = fontSizeInPt;
+            // Check for other fonts. If useful Check for changes instead. As of now, in test document, all fonts seems to be ArialMT.
+            // if (!textPosition.getFont().getName().equals("ArialMT")) {
+            //    super.writeString(String.format(" %s ", textPosition.getFont().getName()));
+            // }
+
             // super.writeString(String.format(" %f ", currentFontSizeInPt));
-            super.writeString(String.format(" %f ", textPosition.getHeight()));
+            // super.writeString(String.format(" %f ", textPosition.getHeight()));
+            
         }
+        // Print text
+        // super.writeString(text.trim());
         super.writeString(text);
     }
 
-    /**
-     * Write a string to the output stream and escape some HTML characters.
-     *
-     * @param chars String to be written to the stream
-     * @throws IOException
-     *             If there is an error writing to the stream.
-     */
-    @Override
-    protected void writeString(String chars) throws IOException
-    {
-        super.writeString(chars);
-    }
 
     /**
      * Write something (if defined) at the start of a page.
@@ -188,7 +170,10 @@ public class PDFCourier2Text extends PDFTextStripper
      */
     @Override
     protected void writePageStart() throws IOException {
-        super.writeString(LINE_SEPARATOR+String.format("<page number=\"%d\">", getCurrentPageNo()));
+        output = new StringWriter();
+        currentTitles = new ArrayList<TitleInfo>();
+        pageCharacterCount = 0;
+        pageSeparatorCount = 0;
     }
 
     /**
@@ -198,7 +183,9 @@ public class PDFCourier2Text extends PDFTextStripper
      */
     @Override
     protected void writePageEnd() throws IOException {
-        super.writeString("</page>");
+        String page = output.toString();
+        pages.add(page);
+        pageTitles.add(currentTitles);
     }
     /**
      * Writes the paragraph end "&lt;/p&gt;" to the output. Furthermore, it will also clear the font state.
