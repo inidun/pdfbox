@@ -42,6 +42,8 @@ public class PDFCourier2Text extends PDFTextStripper {
     private float currentFontSizeInPt = 0f;
     private int minTitleLengthInCharacters = 8;
     private String currentTitle = "";
+    private int currentTitleStartPosition = 0;
+    private int minTitleCharacterDistance = 100;
     private int pageCharacterCount = 0;
     private PDDocument document = null;
     private List<String> pages = null;
@@ -81,12 +83,19 @@ public class PDFCourier2Text extends PDFTextStripper {
 
     @Override
     protected void writeLineSeparator() throws IOException {
+        if (currentTitle != "") {
+            currentTitle += getLineSeparator();
+        }
         pageSeparatorCount += getLineSeparator().length();
         super.writeLineSeparator();
     }
 
     @Override
     protected void writeWordSeparator() throws IOException {
+
+        if (currentTitle != "") {
+            currentTitle += getWordSeparator();
+        }
         pageSeparatorCount += getWordSeparator().length();
         super.writeWordSeparator();
     }
@@ -112,14 +121,23 @@ public class PDFCourier2Text extends PDFTextStripper {
         if (textPositions.size() > 0) {
             TextPosition textPosition = textPositions.get(0);
             float fontSizeInPt = textPosition.getHeight();
-            if ((fontSizeInPt >= titleFontSizeInPt && currentFontSizeInPt < titleFontSizeInPt)
-                    || (fontSizeInPt >= titleFontSizeInPt && currentFontSizeInPt >= titleFontSizeInPt)) {
-                // if current title == blank, no space
+            
+            
 
-                currentTitle = currentTitle + (currentTitle == "" ? "" : " ") + text;
-            } else if (fontSizeInPt < titleFontSizeInPt && currentFontSizeInPt >= titleFontSizeInPt) {
+            if (fontSizeHasIncreasedAboveThreshold(fontSizeInPt)
+                    || fontSizeIsStillAboveThreshold(fontSizeInPt)) {
+                if (currentTitle.isEmpty()) {                    
+                    if (distanceToPreviousTitlePositionAboveThreshold()) {
+                        currentTitleStartPosition = pageCharacterCount - text.length();
+                        currentTitle = text;
+                    }
+                } else {
+                    currentTitle += text;
+                }
+
+            } else if (fontSizeHasDroppedBelowThreshold(fontSizeInPt)) {
                 if (currentTitle.length() > minTitleLengthInCharacters) {
-                    currentTitles.add(new TitleInfo(currentTitle, pageCharacterCount + pageSeparatorCount));
+                    currentTitles.add(new TitleInfo(currentTitle, currentTitleStartPosition));
                 }
                 currentTitle = "";
             }
@@ -136,16 +154,53 @@ public class PDFCourier2Text extends PDFTextStripper {
 
         }
         // Print text
-        super.writeString(text.trim());
+        // super.writeString(text.trim());
         // super.writeString(text);
+        output.write(text);
     }
 
+    private boolean distanceToPreviousTitlePositionAboveThreshold() {
+        int previousTitlePosition = previousTitlePositionOnSamePage();
+        return (previousTitlePosition >= 0) && (pageCharacterCount - previousTitlePosition >= minTitleCharacterDistance);
+    }
+
+    private boolean fontSizeHasDroppedBelowThreshold(float fontSizeInPt) {
+        return fontSizeInPt < titleFontSizeInPt && currentFontSizeInPt >= titleFontSizeInPt;
+    }
+
+    private boolean fontSizeIsStillAboveThreshold(float fontSizeInPt) {
+        return fontSizeInPt >= titleFontSizeInPt && currentFontSizeInPt >= titleFontSizeInPt;
+    }
+
+    private boolean fontSizeHasIncreasedAboveThreshold(float fontSizeInPt) {
+        return fontSizeInPt >= titleFontSizeInPt && currentFontSizeInPt < titleFontSizeInPt;
+    }
+
+    private int previousTitlePositionOnSamePage() {
+        if (currentTitles.size() > 0) {
+            return currentTitles.get(currentTitles.size() - 1).position;
+        }
+        return -1;
+    }
+
+    @Override
+    protected void writeString(String text) throws IOException
+    {
+        if (currentTitle != "") {
+            currentTitle += text;
+        }
+        output.write(text);
+    }
+
+    
     @Override
     protected void writePageStart() throws IOException {
         output = new StringWriter();
         currentTitles = new ArrayList<TitleInfo>();
         pageCharacterCount = 0;
         pageSeparatorCount = 0;
+        currentTitle = "";
+        currentTitleStartPosition = 0;
     }
 
     @Override
@@ -153,7 +208,7 @@ public class PDFCourier2Text extends PDFTextStripper {
         String page = output.toString();
         pages.add(page);
         pageTitles.add(currentTitles);
-        
+
         pageSeparatorCount += getLineSeparator().length();
         super.writePageEnd();
     }
