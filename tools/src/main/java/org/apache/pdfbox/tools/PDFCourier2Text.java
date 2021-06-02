@@ -161,7 +161,10 @@ public class PDFCourier2Text extends PDFTextStripper {
 
     private boolean distanceToPreviousTitlePositionAboveThreshold() {
         int previousTitlePosition = previousTitlePositionOnSamePage();
-        return (previousTitlePosition >= 0) && (pageCharacterCount - previousTitlePosition >= minTitleCharacterDistance);
+        if (previousTitlePosition < 0 ) {
+            return true;
+        }
+        return pageCharacterCount - previousTitlePosition >= minTitleCharacterDistance;
     }
 
     private boolean fontSizeHasDroppedBelowThreshold(float fontSizeInPt) {
