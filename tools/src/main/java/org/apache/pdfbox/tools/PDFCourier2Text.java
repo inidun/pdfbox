@@ -20,26 +20,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
-// import java.util.HashSet;
-// import java.util.Iterator;
 import java.util.List;
-// import java.util.Set;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
-// import org.apache.pdfbox.pdmodel.font.PDFontDescriptor;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.TextPosition;
 
-/**
- * Wrap stripped text in simple HTML, trying to form HTML paragraphs. Paragraphs
- * broken by pages, columns, or figures are not mended.
- *
- * @author John J Barton
- *
- */
-public class PDFCourier2Text extends PDFTextStripper
-{
+public class PDFCourier2Text extends PDFTextStripper {
     public class TitleInfo {
         public String title;
         public int position;
@@ -61,28 +49,22 @@ public class PDFCourier2Text extends PDFTextStripper
     private List<TitleInfo> currentTitles = null;
     private int pageSeparatorCount = 0;
 
-    /**
-     * Constructor.
-     * @throws IOException If there is an error during initialization.
-     */
-    public PDFCourier2Text(float titleFontSizeInPt, int minTitleLengthInCharacters) throws IOException
-    {
+    public PDFCourier2Text(float titleFontSizeInPt, int minTitleLengthInCharacters) throws IOException {
         this.titleFontSizeInPt = titleFontSizeInPt;
         this.minTitleLengthInCharacters = minTitleLengthInCharacters;
         setLineSeparator(LINE_SEPARATOR);
-        setParagraphEnd(LINE_SEPARATOR);
+        setParagraphEnd("");
+        setWordSeparator(" ");
     }
 
-
-    public List<String> extractText(String filename) throws IOException
-    {
+    public List<String> extractText(String filename) throws IOException {
         output = new StringWriter();
         pages = new ArrayList<String>();
         pageTitles = new ArrayList<List<TitleInfo>>();
         document = Loader.loadPDF(new File(filename));
-		StringWriter sw = new StringWriter();
-		writeText(document, sw);
-		return pages;
+        StringWriter sw = new StringWriter();
+        writeText(document, sw);
+        return pages;
     }
 
     public List<List<TitleInfo>> getTitles() {
@@ -90,84 +72,74 @@ public class PDFCourier2Text extends PDFTextStripper
     }
 
     @Override
-    protected void startDocument(PDDocument document) throws IOException
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void endDocument(PDDocument document) throws IOException
-    {
+    protected void startDocument(PDDocument document) throws IOException {
     }
 
     @Override
-    protected void writeLineSeparator() throws IOException
-    {
-        pageSeparatorCount += 1;
-        super.writeLineSeparator() ;
+    public void endDocument(PDDocument document) throws IOException {
     }
 
     @Override
-    protected void writeWordSeparator() throws IOException
-    {
-        pageSeparatorCount += 1;
+    protected void writeLineSeparator() throws IOException {
+        pageSeparatorCount += getLineSeparator().length();
+        super.writeLineSeparator();
+    }
+
+    @Override
+    protected void writeWordSeparator() throws IOException {
+        pageSeparatorCount += getWordSeparator().length();
         super.writeWordSeparator();
     }
 
+    @Override
+    protected void writeCharacters(TextPosition text) throws IOException {
+        pageSeparatorCount += text.getUnicode().length();
+        super.writeCharacters(text);
+    }
+
     /**
-     * Write a string to the output stream, maintain font state, and escape some HTML characters.
-     * The font state is only preserved per word.
+     * Write a string to the output stream, maintain font state, and escape some
+     * HTML characters. The font state is only preserved per word.
      *
-     * @param text The text to write to the stream.
+     * @param text          The text to write to the stream.
      * @param textPositions the corresponding text positions
      * @throws IOException If there is an error writing to the stream.
      */
     @Override
-    protected void writeString(String text, List<TextPosition> textPositions) throws IOException
-    {
+    protected void writeString(String text, List<TextPosition> textPositions) throws IOException {
         pageCharacterCount += text.length();
         // + 1;
         if (textPositions.size() > 0) {
             TextPosition textPosition = textPositions.get(0);
             float fontSizeInPt = textPosition.getHeight();
             if ((fontSizeInPt >= titleFontSizeInPt && currentFontSizeInPt < titleFontSizeInPt)
-                ||
-                    (fontSizeInPt >= titleFontSizeInPt && currentFontSizeInPt >= titleFontSizeInPt)
-                ) {
-                currentTitle = currentTitle + " " + text;
+                    || (fontSizeInPt >= titleFontSizeInPt && currentFontSizeInPt >= titleFontSizeInPt)) {
+                // if current title == blank, no space
+
+                currentTitle = currentTitle + (currentTitle == "" ? "" : " ") + text;
             } else if (fontSizeInPt < titleFontSizeInPt && currentFontSizeInPt >= titleFontSizeInPt) {
                 if (currentTitle.length() > minTitleLengthInCharacters) {
                     currentTitles.add(new TitleInfo(currentTitle, pageCharacterCount + pageSeparatorCount));
-                    // super.writeString(LINE_SEPARATOR + String.format("<title>%s</title>", currentTitle) + LINE_SEPARATOR);
                 }
-                // else {
-                //     super.writeString(LINE_SEPARATOR + String.format("<skipped>%s</skipped>", currentTitle) + LINE_SEPARATOR);
-                // }
                 currentTitle = "";
             }
             currentFontSizeInPt = fontSizeInPt;
-            // Check for other fonts. If useful Check for changes instead. As of now, in test document, all fonts seems to be ArialMT.
+
+            // Check for other fonts. If useful Check for changes instead. As of now, in
+            // test document, all fonts seems to be ArialMT.
             // if (!textPosition.getFont().getName().equals("ArialMT")) {
-            //    super.writeString(String.format(" %s ", textPosition.getFont().getName()));
+            // super.writeString(String.format(" %s ", textPosition.getFont().getName()));
             // }
 
             // super.writeString(String.format(" %f ", currentFontSizeInPt));
             // super.writeString(String.format(" %f ", textPosition.getHeight()));
-            
+
         }
         // Print text
-        // super.writeString(text.trim());
-        super.writeString(text);
+        super.writeString(text.trim());
+        // super.writeString(text);
     }
 
-
-    /**
-     * Write something (if defined) at the start of a page.
-     *
-     * @throws IOException if something went wrong
-     */
     @Override
     protected void writePageStart() throws IOException {
         output = new StringWriter();
@@ -176,25 +148,19 @@ public class PDFCourier2Text extends PDFTextStripper
         pageSeparatorCount = 0;
     }
 
-    /**
-     * Write something (if defined) at the end of a page.
-     *
-     * @throws IOException if something went wrong
-     */
     @Override
     protected void writePageEnd() throws IOException {
         String page = output.toString();
         pages.add(page);
         pageTitles.add(currentTitles);
+        
+        pageSeparatorCount += getLineSeparator().length();
+        super.writePageEnd();
     }
-    /**
-     * Writes the paragraph end "&lt;/p&gt;" to the output. Furthermore, it will also clear the font state.
-     *
-     * {@inheritDoc}
-     */
+
     @Override
-    protected void writeParagraphEnd() throws IOException
-    {
+    protected void writeParagraphEnd() throws IOException {
+        pageSeparatorCount += getParagraphEnd().length();
         super.writeParagraphEnd();
     }
 
