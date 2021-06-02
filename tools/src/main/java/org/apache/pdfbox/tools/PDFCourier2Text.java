@@ -20,14 +20,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+// import java.util.HashSet;
+// import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+// import java.util.Set;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.font.PDFontDescriptor;
+// import org.apache.pdfbox.pdmodel.font.PDFontDescriptor;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.TextPosition;
 
@@ -50,7 +50,6 @@ public class PDFCourier2Text extends PDFTextStripper
         }
     }
 
-    private static final int INITIAL_PDF_TO_HTML_BYTES = 8192;
     private float titleFontSizeInPt = 5.5f;
     private float currentFontSizeInPt = 0f;
     private int minTitleLengthInCharacters = 8;
@@ -128,7 +127,8 @@ public class PDFCourier2Text extends PDFTextStripper
     @Override
     protected void writeString(String text, List<TextPosition> textPositions) throws IOException
     {
-        pageCharacterCount += text.length() + 1;
+        pageCharacterCount += text.length();
+        // + 1;
         if (textPositions.size() > 0) {
             TextPosition textPosition = textPositions.get(0);
             float fontSizeInPt = textPosition.getHeight();
