@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch ExtractCourierText",
+            "request": "launch",
+            "mainClass": "org.apache.pdfbox.examples.pdmodel.ExtractCourierText",
+            "projectName": "pdfbox-examples"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -211,13 +218,6 @@
             "name": "Launch CreateSeparationColorBox",
             "request": "launch",
             "mainClass": "org.apache.pdfbox.examples.pdmodel.CreateSeparationColorBox",
-            "projectName": "pdfbox-examples"
-        },
-        {
-            "type": "java",
-            "name": "Launch DisturbingThisIs",
-            "request": "launch",
-            "mainClass": "org.apache.pdfbox.examples.pdmodel.DisturbingThisIs",
             "projectName": "pdfbox-examples"
         },
         {
